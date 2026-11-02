@@ -47,7 +47,7 @@ Screenshots of the command outputs go in [docs/evidence](docs/evidence).
 
 | Path | Contents |
 |------|----------|
-| `Enterprise_Network_Implementation.pkt` | Packet Tracer lab file |
+| `Enterprise_Network_Implementation-OSPF-HSRP-EIGRP-WLC.pkt` | Packet Tracer lab file |
 | `topology.png` | Topology screenshot |
 | `configs/` | Device configurations (one file per device) |
 | `configs/servers.md` | Server0 (TACACS+, DNS) and Server1 setup |
@@ -58,4 +58,4 @@ Screenshots of the command outputs go in [docs/evidence](docs/evidence).
 
 ## How to open the lab
 
-Open `Enterprise_Network_Implementation.pkt` in Cisco Packet Tracer. The devices already hold their configurations.
+Open `Enterprise_Network_Implementation-OSPF-HSRP-EIGRP-WLC.pkt` in Cisco Packet Tracer. The devices already hold their configurations.
