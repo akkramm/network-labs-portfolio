@@ -1,0 +1,31 @@
+! Switch1 : Catalyst 2960 - Server farm access switch
+enable
+configure terminal
+hostname Switch1
+
+vlan 50 name DC-SERVERS
+
+! Dual uplink trunks to DC-SW2 and DC-SW3
+interface range FastEthernet0/1 - 2
+ switchport mode trunk
+ switchport trunk allowed vlan 50
+ no shutdown
+ exit
+
+! Access ports for data center servers (VLAN 50)
+interface FastEthernet0/3
+ description SERVER0-TACACS-DNS
+ switchport mode access
+ switchport access vlan 50
+ spanning-tree portfast
+ no shutdown
+ exit
+interface FastEthernet0/4
+ description SERVER1-WEB-APP
+ switchport mode access
+ switchport access vlan 50
+ spanning-tree portfast
+ no shutdown
+ exit
+end
+write memory

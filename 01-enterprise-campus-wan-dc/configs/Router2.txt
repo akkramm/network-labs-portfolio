@@ -1,0 +1,28 @@
+! Router2 : Cisco ISR 4321 - OSPF Area 1 / Area 0 ABR
+enable
+configure terminal
+hostname Router2
+
+interface Serial0/1/0
+ description WAN-P2P-FROM-ROUTER1-DTE
+ ip address 10.1.1.2 255.255.255.252
+ no shutdown
+ exit
+interface GigabitEthernet0/0/0
+ description BACKBONE-PATH-A-TO-ROUTER3
+ ip address 11.1.1.1 255.255.255.252
+ no shutdown
+ exit
+interface GigabitEthernet0/0/1
+ description BACKBONE-PATH-B-TO-ROUTER4
+ ip address 12.1.1.1 255.255.255.252
+ no shutdown
+ exit
+router ospf 1
+ router-id 2.2.2.2
+ network 10.1.1.0 0.0.0.3 area 1
+ network 11.1.1.0 0.0.0.3 area 0
+ network 12.1.1.0 0.0.0.3 area 0
+ exit
+end
+write memory

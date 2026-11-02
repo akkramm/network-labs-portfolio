@@ -1,0 +1,33 @@
+! Router6 : Cisco ISR 4321 - ASBR, mutual OSPF / EIGRP redistribution
+enable
+configure terminal
+hostname Router6
+
+interface Serial0/1/0
+ description WAN-P2P-FROM-ROUTER5-DTE
+ ip address 15.1.1.2 255.255.255.252
+ no shutdown
+interface GigabitEthernet0/0/0
+ description DC-UPLINK-TO-DC-SW2
+ ip address 200.1.1.1 255.255.255.252
+ no shutdown
+interface GigabitEthernet0/0/1
+ description DC-UPLINK-TO-DC-SW3
+ ip address 200.1.2.1 255.255.255.252
+ no shutdown
+
+! OSPF Area 2 with EIGRP redistribution
+router ospf 1
+ router-id 6.6.6.6
+ network 15.1.1.0 0.0.0.3 area 2
+ redistribute eigrp 100 subnets
+ exit
+
+! EIGRP AS 100 with OSPF redistribution (metric: bandwidth delay reliability load MTU)
+router eigrp 100
+ network 200.1.1.0 0.0.0.3
+ network 200.1.2.0 0.0.0.3
+ redistribute ospf 1 metric 100000 100 255 1 1500
+ no auto-summary
+end
+write memory

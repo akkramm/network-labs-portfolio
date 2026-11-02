@@ -1,0 +1,42 @@
+! DC-SW2 : Catalyst 3560 - Data center core 1 (HSRP Active, VIP 200.1.5.10, priority 110)
+enable
+configure terminal
+hostname DC-SW2
+ip routing
+
+vlan 50
+ name DC-SERVERS
+ exit
+
+! Routed uplink to ASBR Router6
+interface FastEthernet0/5
+ no switchport
+ ip address 200.1.1.2 255.255.255.252
+ no shutdown
+ exit
+
+! Downlink trunk to server access switch
+interface FastEthernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 50
+ no shutdown
+ exit
+
+! Server farm SVI with HSRP
+interface Vlan50
+ ip address 200.1.5.2 255.255.255.0
+ standby 50 ip 200.1.5.10
+ standby 50 priority 110
+ standby 50 preempt
+ no shutdown
+ exit
+
+! EIGRP AS 100
+router eigrp 100
+ network 200.1.1.0 0.0.0.3
+ network 200.1.5.0 0.0.0.255
+ no auto-summary
+ exit
+end
+write memory

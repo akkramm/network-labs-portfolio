@@ -1,0 +1,30 @@
+! Router1 : Cisco ISR 4321 - Campus edge, OSPF Area 1 aggregator
+enable
+configure terminal
+hostname Router1
+
+interface GigabitEthernet0/0/0
+ description UPLINK-TO-CORE-SW1
+ ip address 172.168.1.1 255.255.255.252
+ no shutdown
+ exit
+interface GigabitEthernet0/0/1
+ description UPLINK-TO-CORE-SW2
+ ip address 172.168.2.1 255.255.255.252
+ no shutdown
+ exit
+interface Serial0/1/0
+ description WAN-P2P-TO-ROUTER2-DCE
+ ip address 10.1.1.1 255.255.255.252
+ clock rate 2000000
+ no shutdown
+ exit
+
+router ospf 1
+ router-id 1.1.1.1
+ network 172.168.1.0 0.0.0.3 area 1
+ network 172.168.2.0 0.0.0.3 area 1
+ network 10.1.1.0 0.0.0.3 area 1
+ exit
+end
+write memory
